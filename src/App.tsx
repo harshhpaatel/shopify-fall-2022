@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import {
+  MantineProvider,
+  ColorSchemeProvider,
+  ColorScheme,
+} from "@mantine/core";
+import { useColorScheme, useLocalStorage, useHotkeys } from "@mantine/hooks";
+import MyAppShell from "./pages/MyAppShell";
+import Landing from "./pages/Landing";
 
-function App() {
+type AppProps = {};
+
+const App: React.FC<AppProps> = () => {
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: preferredColorScheme,
+  });
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
+      <MantineProvider theme={{ colorScheme }}>
+        <Routes>
+          <Route path="/" element={<MyAppShell />}>
+            <Route path="/" element={<Landing />} />
+          </Route>
+        </Routes>
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
-}
+};
 
 export default App;
