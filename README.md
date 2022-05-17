@@ -6,8 +6,8 @@ Hosted App: [funwithai.harshpatel.ca](https://funwithai.harshpatel.ca)
 
 ## Major Features
 
-- Save response to local storage
-- `🌟 NEW` Dark mode and light mode options (default is system theme)
+- Save responses to local storage
+- `🌟 NEW` Dark/light mode options (default is system theme)
 
 ## Tech Stack
 
